@@ -5,6 +5,7 @@ ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 ENV SPARK_HOME /opt/spark
 ENV PATH="${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${SPARK_HOME}/bin:${SPARK_HOME}/sbin:${PATH}"
+ENV PYTHONPATH="${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.7-src.zip:${PYTHONPATH}"
 ENV HADOOP_VERSION 2.7.0
 ENV PYSPARK_DRIVER_PYTHON=jupyter
 ENV PYSPARK_DRIVER_PYTHON_OPTS='notebook'
@@ -50,7 +51,5 @@ EXPOSE 8020
 EXPOSE 22
 
 RUN mkdir lab
-COPY notebooks/*.ipynb /root/lab/
-COPY datasets /root/lab/datasets
 
 ENTRYPOINT ["/bin/bash", "bootstrap.sh"]

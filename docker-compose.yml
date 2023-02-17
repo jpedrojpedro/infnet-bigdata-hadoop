@@ -15,6 +15,9 @@ services:
       - "8080:8080"
       - "8042:8042"
       - "8888:8888"
+    volumes:
+      - ./notebooks:/root/lab/
+      - ./datasets:/root/lab/datasets
     networks:
       cluster-network:
         aliases: 
