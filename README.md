@@ -18,6 +18,7 @@ For more details about this project please refer to [my article](https://lemaizi
 ├── datasets
 │   ├── alice_in_wonderland.txt
 │   └── iris.csv
+│   └── 202001_BolsaFamilia_Pagamentos.csv
 ├── notebooks
 │   ├── Bash-Interface.ipynb
 │   ├── Dask-Yarn.ipynb
@@ -27,7 +28,14 @@ For more details about this project please refer to [my article](https://lemaizi
     └── bootstrap.sh
 ```
 
+### Download notebooks
 
+- `202001_BolsaFamilia_Pagamentos.csv`
+    - [https://portaldatransparencia.gov.br/download-de-dados/bolsa-familia-pagamentos](https://portaldatransparencia.gov.br/download-de-dados/bolsa-familia-pagamentos)
+- `alice_in_wonderland.txt`
+    - [???](https://google.com)
+- `iris.csv`
+    - [???](https://google.com)
 
 ### Create the base container image
 

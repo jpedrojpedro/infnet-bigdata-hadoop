@@ -1,0 +1,12 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+dask = {version = "==2023.2.0", extras = ["distributed"]}
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
