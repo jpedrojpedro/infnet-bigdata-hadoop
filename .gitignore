@@ -77,6 +77,10 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*.ipynb/
+
+# Spark
+spark-warehouse/
 
 # IPython
 profile_default/
