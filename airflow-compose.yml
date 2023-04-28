@@ -1,0 +1,100 @@
+version: "3.7"
+
+x-volumes:
+  &custom_volumes
+  volumes:
+    - ./dags:/home/airflow/dags
+    - ./logs:/home/airflow/logs
+    - ./plugins:/home/airflow/plugins
+    - ./config/variables.json:/home/airflow/variables.json
+    - ./config/connections.ini:/home/airflow/connections.ini
+    - ./config/setup_connections.py:/home/airflow/setup_connections.py
+    - ./config/requirements.txt:/home/airflow/requirements.txt
+    - ./config/webserver_config.py:/home/airflow/webserver_config.py
+
+services:
+  redis:
+    image: redis:7.0.3-bullseye
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:13.7-bullseye
+    env_file:
+      - config/common.env
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U airflow" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  airflow-webserver:
+    build: .
+    restart: "no"
+    command: webserver
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    env_file:
+      - config/common.env
+    <<: *custom_volumes
+    healthcheck:
+      test: [ "CMD-SHELL", "[ -f /airflow/airflow-webserver.pid ]" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  airflow-scheduler:
+    build: .
+    command: scheduler
+    restart: "no"
+    depends_on:
+      - airflow-webserver
+    ports:
+      - "8088:8080"
+    env_file:
+      - config/common.env
+    <<: *custom_volumes
+
+  airflow-worker-1:
+    build: .
+    command: worker
+    restart: "no"
+    depends_on:
+      - airflow-webserver
+    ports:
+      - "8081:8080"
+    env_file:
+      - config/common.env
+    <<: *custom_volumes
+    environment:
+      - QUEUE_NAMES=default
+
+  airflow-worker-2:
+    build: .
+    command: worker
+    restart: "no"
+    depends_on:
+      - airflow-webserver
+    ports:
+      - "8082:8080"
+    env_file:
+      - config/common.env
+    <<: *custom_volumes
+    environment:
+      - QUEUE_NAMES=default
+
+  airflow-flower:
+    build: .
+    command: flower
+    restart: "no"
+    depends_on:
+      - airflow-worker-1
+      - airflow-worker-2
+    ports:
+      - "5555:5555"
+    env_file:
+      - config/common.env
