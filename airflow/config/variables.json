@@ -1,0 +1,7 @@
+
+{
+    "NOTIFICATION_EMAILS": "joao.valladao@prof.infnet.edu.org",
+    "WORKER_1": "default",
+    "WORKER_2": "default",
+    "SLACK_CONN": "slack"
+}
