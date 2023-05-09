@@ -30,20 +30,6 @@ services:
       timeout: 5s
       retries: 5
 
-  postgres-data:
-    image: postgres:13.7-bullseye
-    env_file:
-      - config/pg-data.env
-    ports:
-      - "5433:5432"
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U airflow" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-
   airflow-webserver:
     build: .
     restart: "no"
