@@ -15,6 +15,7 @@ services:
       - "8080:8080"
       - "8042:8042"
       - "8888:8888"
+      - "4040:4040"
     volumes:
       - ./notebooks:/root/lab/notebooks
       - ./datasets:/root/lab/datasets
@@ -44,6 +45,26 @@ services:
       cluster-network:
         aliases: 
           - node-slave2
+  pg-data:
+    image: postgres:13.7-bullseye
+    container_name: pg-data
+    hostname: pg-data
+    tty: true
+    env_file:
+      - pg-data.env
+    ports:
+      - "5555:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    networks:
+      cluster-network:
+        aliases:
+          - pg-data
 networks:
   cluster-network:
     driver: bridge

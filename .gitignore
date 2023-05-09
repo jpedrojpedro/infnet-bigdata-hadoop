@@ -170,3 +170,5 @@ datasets/*
 # MacOS
 .DS_Store
 
+# PostgreSQL Volume
+pg-data/
