@@ -4,18 +4,23 @@ services:
     depends_on:
       - node-slave1
       - node-slave2
+      - pg-data
     image: cluster-base:latest
     container_name: node-master
     hostname: node-master
     tty: true
     ports:
-      - "8088:8088"
       - "50070:50070"
       - "50030:50030"
-      - "8080:8080"
+      - "9000:9000"
+      - "7077:7077"
+      - "8020:8020"
       - "8042:8042"
-      - "8888:8888"
+      - "8088:8088"
+      - "8080:8080"
       - "4040:4040"
+      - "4041:4041"
+      - "4042:4042"
     volumes:
       - ./notebooks:/root/lab/notebooks
       - ./datasets:/root/lab/datasets
