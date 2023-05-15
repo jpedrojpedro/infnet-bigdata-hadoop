@@ -12,8 +12,6 @@ services:
     ports:
       - "50070:50070"
       - "50030:50030"
-      - "10000:10000"
-      - "9083:9083"
       - "9000:9000"
       - "7077:7077"
       - "8020:8020"
@@ -24,7 +22,7 @@ services:
       - "4041:4041"
       - "4042:4042"
     volumes:
-      - ./notebooks:/root/lab/notebooks
+      - ./scripts:/root/lab/scripts
       - ./datasets:/root/lab/datasets
     networks:
       cluster-network:

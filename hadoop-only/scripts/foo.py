@@ -5,8 +5,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, sum, avg
 from pathlib import Path
 
-# conf = SparkConf().setAppName("foo-example")
-# sc = SparkContext(conf=conf)
 sc = SparkContext.getOrCreate()
 spark = SparkSession(sc)
 
