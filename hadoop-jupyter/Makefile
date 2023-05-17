@@ -4,6 +4,7 @@ start:
 	echo "Creating base container image"
 	docker build . -t cluster-base
 	echo "Running micro-cluster on background"
+	docker network create cluster-network || true
 	docker-compose up -d
 
 stop:

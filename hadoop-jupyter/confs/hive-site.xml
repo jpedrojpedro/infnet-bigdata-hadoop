@@ -23,21 +23,9 @@
     </property>
     <property>
         <name>hive.execution.engine</name>
-<!--        <value>tez</value>-->
-<!--         <value>mr</value>-->
-         <value>spark</value>
+        <!-- <value>tez</value> -->
+        <value>mr</value>
+        <!-- <value>spark</value> -->
         <description>Execution engine to be used instead of MapReduce and Spark</description>
-    </property>
-    <property>
-        <name>hive.server2.enable.doAs</name>
-        <value>false</value>
-    </property>
-    <property>
-        <name>hive.server2.use.SSL</name>
-        <value>false</value>
-    </property>
-    <property>
-        <name>hive.server2.authentication</name>
-        <value>NOSASL</value>
     </property>
 </configuration>
