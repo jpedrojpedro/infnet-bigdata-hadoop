@@ -5,9 +5,10 @@ ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 ENV SPARK_HOME /opt/spark
 ENV HIVE_HOME /opt/hive
+ENV TEZ_HOME /opt/tez
 ENV PATH="${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${SPARK_HOME}/bin:${SPARK_HOME}/sbin:${HIVE_HOME}/bin:${PATH}"
 ENV PYTHONPATH="${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.7-src.zip:${PYTHONPATH}"
-ENV CLASSPATH="{$CLASSPATH}:${HADOOP_HOME}/lib/*:${HIVE_HOME}/lib/*"
+ENV CLASSPATH="{$CLASSPATH}:${HADOOP_HOME}/lib/*:${HIVE_HOME}/lib/*:${TEZ_HOME}/lib/*"
 ENV HADOOP_VERSION 2.7.0
 ENV PYSPARK_DRIVER_PYTHON=jupyter
 ENV PYSPARK_DRIVER_PYTHON_OPTS='notebook'
@@ -36,6 +37,10 @@ RUN wget -P /tmp/ https://dlcdn.apache.org/hive/hive-2.3.9/apache-hive-2.3.9-bin
 RUN tar xvf /tmp/apache-hive-2.3.9-bin.tar.gz -C /tmp && \
 	mv /tmp/apache-hive-2.3.9-bin ${HIVE_HOME}
 
+RUN wget -P /tmp/ https://dlcdn.apache.org/tez/0.10.2/apache-tez-0.10.2-bin.tar.gz
+RUN tar xvf /tmp/apache-tez-0.10.2-bin.tar.gz -C /tmp && \
+	mv /tmp/apache-tez-0.10.2-bin ${HIVE_HOME}
+
 RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
 	cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
 	chmod 600 ~/.ssh/authorized_keys
@@ -44,7 +49,7 @@ RUN chmod 600 /root/.ssh/config
 
 COPY /confs/*.xml /opt/hadoop/etc/hadoop/
 COPY /confs/slaves /opt/hadoop/etc/hadoop/
-COPY /script_files/bootstrap.sh /
+COPY bootstrap.sh /
 COPY /confs/spark-defaults.conf ${SPARK_HOME}/conf
 COPY /confs/hive-site.xml ${HIVE_HOME}/conf
 

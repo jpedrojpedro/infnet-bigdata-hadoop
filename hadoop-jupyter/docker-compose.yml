@@ -4,7 +4,7 @@ services:
     depends_on:
       - node-slave1
       - node-slave2
-      - pg-data
+      - node-hive
     image: cluster-base:latest
     container_name: node-master
     hostname: node-master
@@ -12,22 +12,22 @@ services:
     ports:
       - "50070:50070"
       - "50030:50030"
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
       - "9000:9000"
       - "7077:7077"
       - "8020:8020"
       - "8042:8042"
       - "8088:8088"
       - "8080:8080"
+      - "8888:8888"
       - "4040:4040"
       - "4041:4041"
       - "4042:4042"
     volumes:
       - ./notebooks:/root/lab/notebooks
       - ./datasets:/root/lab/datasets
-    networks:
-      cluster-network:
-        aliases: 
-          - node-master
   node-slave1:
     image: cluster-base:latest
     container_name: node-slave1
@@ -35,10 +35,6 @@ services:
     tty: true
     ports:
       - "7042:8042"
-    networks:
-      cluster-network:
-        aliases: 
-          - node-slave1
   node-slave2:
     image: cluster-base:latest
     container_name: node-slave2
@@ -46,10 +42,15 @@ services:
     tty: true
     ports:
       - "9042:8042"
-    networks:
-      cluster-network:
-        aliases: 
-          - node-slave2
+  node-hive:
+    depends_on:
+      - pg-catalog
+    image: cluster-base:latest
+    container_name: node-hive
+    hostname: node-hive
+    tty: true
+    ports:
+      - "9083:9083"
   pg-data:
     image: postgres:13.7-bullseye
     container_name: pg-data
@@ -58,7 +59,7 @@ services:
     env_file:
       - pg-data.env
     ports:
-      - "5555:5432"
+      - "5556:5433"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
@@ -66,12 +67,23 @@ services:
       retries: 5
     volumes:
       - ./pg-data:/var/lib/postgresql/data
-    networks:
-      cluster-network:
-        aliases:
-          - pg-data
+  pg-catalog:
+    image: postgres:13.7-bullseye
+    container_name: pg-catalog
+    hostname: pg-catalog
+    tty: true
+    env_file:
+      - pg-catalog.env
+    ports:
+      - "5555:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./pg-catalog:/var/lib/postgresql/data
 networks:
-  cluster-network:
-    driver: bridge
-    ipam:
-      driver: default
+  default:
+    name: cluster-network
+    external: true

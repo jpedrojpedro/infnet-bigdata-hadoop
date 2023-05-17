@@ -18,17 +18,22 @@
 
 <configuration>
 	<property>
-            <name>dfs.namenode.name.dir</name>
-            <value>/opt/hadoop/data/nameNode</value>
+        <name>dfs.namenode.name.dir</name>
+        <value>/opt/hadoop/data/nameNode</value>
     </property>
 
     <property>
-            <name>dfs.datanode.data.dir</name>
-            <value>/opt/hadoop/data/dataNode</value>
+        <name>dfs.datanode.data.dir</name>
+        <value>/opt/hadoop/data/dataNode</value>
     </property>
 
     <property>
-            <name>dfs.replication</name>
-            <value>2</value>
+        <name>dfs.replication</name>
+        <value>2</value>
+    </property>
+
+    <property>
+        <name>hadoop.security.group.mapping.ldap.posix.attr.uid.name</name>
+        <value>uid</value>
     </property>
 </configuration>
