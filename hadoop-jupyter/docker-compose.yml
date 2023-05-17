@@ -4,7 +4,7 @@ services:
     depends_on:
       - node-slave1
       - node-slave2
-      - pg-catalog
+      - node-hive
     image: cluster-base:latest
     container_name: node-master
     hostname: node-master
@@ -13,7 +13,6 @@ services:
       - "50070:50070"
       - "50030:50030"
       - "10000:10000"
-      - "9083:9083"
       - "9000:9000"
       - "7077:7077"
       - "8020:8020"
@@ -52,6 +51,19 @@ services:
       cluster-network:
         aliases: 
           - node-slave2
+  node-hive:
+    depends_on:
+      - pg-catalog
+    image: cluster-base:latest
+    container_name: node-hive
+    hostname: node-hive
+    tty: true
+    ports:
+      - "9083:9083"
+    networks:
+      cluster-network:
+        aliases:
+          - node-hive
   pg-data:
     image: postgres:13.7-bullseye
     container_name: pg-data

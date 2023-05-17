@@ -1,11 +1,8 @@
 #!/bin/bash
 hdfs namenode -format
 service ssh start
-if [ "$HOSTNAME" = node-master ]; then
-    start-dfs.sh
-    start-yarn.sh
-    # start-master.sh
-    echo "########## waiting postgresql start"
+if [ "$HOSTNAME" = node-hive ]; then
+    echo "########## waiting postgresql catalog start"
     sleep 30
     FILE=/root/.metastore
     if [ -f "$FILE" ]; then
@@ -18,8 +15,13 @@ if [ "$HOSTNAME" = node-master ]; then
     fi
     echo "########## starting hive as metastore"
     hive --service metastore &
+fi
+if [ "$HOSTNAME" = node-master ]; then
+    start-dfs.sh
+    start-yarn.sh
+    # start-master.sh
     echo "########## starting hive as query engine"
-    hive --service hiveserver2 --hiveconf hive.server2.thrift.port=10000 --hiveconf hive.root.logger=DEBUG,console &
+    nohup hive --service hiveserver2 --hiveconf hive.server2.thrift.port=10000 --hiveconf hive.root.logger=DEBUG,console &
     cd /root/lab
     echo "########## starting jupyter notebook"
     jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' &
