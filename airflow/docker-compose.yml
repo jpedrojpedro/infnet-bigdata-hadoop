@@ -98,3 +98,8 @@ services:
       - "5555:5555"
     env_file:
       - config/common.env
+
+networks:
+  default:
+    name: cluster-network
+    external: true
