@@ -95,7 +95,7 @@ services:
       - airflow-worker-1
       - airflow-worker-2
     ports:
-      - "5555:5555"
+      - "5554:5555"
     env_file:
       - config/common.env
 
