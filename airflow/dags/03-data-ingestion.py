@@ -40,18 +40,18 @@ with DAG(
     sequence = []
     for tbl in ["circuits", "drivers", "qualifying"]:
         @task(task_id=f"extract_{tbl}")
-        def extract():
+        def extract(table_name):
             log.info("opening postgres connection")
             postgres_hook = PostgresHook(postgres_conn_id="pg-data")
-            log.info(f"reading dataframe {tbl}")
-            df = pd.read_csv(f"dags/input/f1/{tbl}.csv")
-            log.info(f"loading data into postgres table {tbl}")
+            log.info(f"reading dataframe {table_name}")
+            df = pd.read_csv(f"dags/input/f1/{table_name}.csv", encoding="iso-8859-1")
+            log.info(f"loading data into postgres table {table_name}")
             df.to_sql(
-                tbl,
+                table_name,
                 postgres_hook.get_sqlalchemy_engine(),
                 if_exists="replace",
                 chunksize=1000
             )
-        sequence.append(extract())
+        sequence.append(extract(tbl))
 
     chain(*sequence)

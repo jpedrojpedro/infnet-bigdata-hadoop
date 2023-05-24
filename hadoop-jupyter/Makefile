@@ -1,4 +1,4 @@
-.PHONY: start stop destroy
+.PHONY: start stop destroy pg-data
 
 start:
 	echo "Creating base container image"
@@ -14,3 +14,7 @@ stop:
 destroy:
 	echo "Stopping micro-cluster and removing volumes"
 	docker-compose down -v
+
+pg-data:
+	echo "Starting pg-data only"
+	docker-compose up -d pg-data
