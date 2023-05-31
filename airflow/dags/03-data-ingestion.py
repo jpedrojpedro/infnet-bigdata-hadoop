@@ -38,7 +38,7 @@ with DAG(
     tags=['example'],
 ) as dag:
     sequence = []
-    for tbl in ["circuits", "drivers", "qualifying"]:
+    for tbl in ["circuits", "constructors", "drivers", "qualifying", "races", "results", "seasons", "status"]:
         @task(task_id=f"extract_{tbl}")
         def extract(table_name):
             log.info("opening postgres connection")
