@@ -4,6 +4,7 @@
 
 - F1: [F1.md](exercises/F1.md)
 - Pagamentos Bolsa Família: `TBD`
+- Baby Names Challenge: `TBD`
 
 ### Dependências
 
@@ -65,6 +66,8 @@
   - [https://www.kaggle.com/datasets/cjgdev/formula-1-race-data-19502017](https://www.kaggle.com/datasets/cjgdev/formula-1-race-data-19502017)
 - `iris.csv`
   - [https://archive.ics.uci.edu/ml/datasets/iris](https://archive.ics.uci.edu/ml/datasets/iris)
+- `Baby Names USA`
+  - [https://www.ssa.gov/oact/babynames/state/namesbystate.zip](https://www.ssa.gov/oact/babynames/state/namesbystate.zip)
 
 ### Comando para criação da imagem base do projeto
 
