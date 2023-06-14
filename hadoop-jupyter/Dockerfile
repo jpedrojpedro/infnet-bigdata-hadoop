@@ -15,11 +15,14 @@ ENV PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ENV PYSPARK_PYTHON=python3
 
 RUN apt-get update && \
-    apt-get install -y wget nano openjdk-8-jdk ssh openssh-server
+    apt-get install -y wget nano openjdk-8-jdk ssh openssh-server libjpeg-dev
 RUN apt update && apt install -y python3 python3-pip python3-dev build-essential libssl-dev libffi-dev libpq-dev
 
 COPY /confs/requirements.req /
 RUN pip3 install --upgrade pip
+RUN python3 -m pip install cython
+RUN python3 -m pip install --no-binary :all: --no-use-pep517 numpy
+RUN python3 -m pip install matplotlib
 RUN pip3 install -r requirements.req
 RUN pip3 install dask[bag] --upgrade
 RUN pip3 install --upgrade toree
