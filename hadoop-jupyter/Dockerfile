@@ -1,6 +1,9 @@
 FROM ubuntu:bionic
 
-ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
+ARG ARCH=amd64
+
+ENV ARCH=${ARCH}
+ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-${ARCH}/jre"
 ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 ENV SPARK_HOME /opt/spark
