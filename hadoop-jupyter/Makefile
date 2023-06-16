@@ -1,8 +1,15 @@
-.PHONY: start stop destroy pg-data
+.PHONY: start start-m1 stop destroy pg-data
 
 start:
 	echo "Creating base container image"
-	docker build . -t cluster-base
+	docker build . -t cluster-base --build-arg="ARCH=amd64"
+	echo "Running micro-cluster on background"
+	docker network create cluster-network || true
+	docker-compose up -d
+
+start-m1:
+	echo "Creating base container image - Mac M1/M2"
+	docker build . -t cluster-base --build-arg="ARCH=arm64"
 	echo "Running micro-cluster on background"
 	docker network create cluster-network || true
 	docker-compose up -d
