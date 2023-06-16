@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 
-ARG ARCH
+ARG ARCH=amd64
 
 ENV ARCH=${ARCH}
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-${ARCH}/jre"
