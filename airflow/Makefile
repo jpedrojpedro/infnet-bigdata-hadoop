@@ -2,6 +2,7 @@
 
 start:
 	echo "Running airflow on background"
+	docker-compose build
 	docker network create cluster-network || true
 	docker-compose up -d
 

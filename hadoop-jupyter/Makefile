@@ -2,7 +2,7 @@
 
 start:
 	echo "Creating base container image"
-	docker build . -t cluster-base
+	docker build . -t cluster-base --build-arg="ARCH=amd64"
 	echo "Running micro-cluster on background"
 	docker network create cluster-network || true
 	docker-compose up -d
