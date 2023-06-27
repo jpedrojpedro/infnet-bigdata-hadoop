@@ -28,4 +28,12 @@
         <!-- <value>spark</value> -->
         <description>Execution engine to be used instead of MapReduce and Spark</description>
     </property>
+    <property>
+        <name>hive.mapred.supports.subdirectories</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>mapred.input.dir.recursive</name>
+        <value>true</value>
+    </property>
 </configuration>
