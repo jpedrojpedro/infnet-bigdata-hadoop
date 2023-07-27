@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.7"
 services:
   node-master:
     depends_on:
@@ -87,4 +87,4 @@ services:
 networks:
   default:
     name: cluster-network
-    external: true
+    external: false

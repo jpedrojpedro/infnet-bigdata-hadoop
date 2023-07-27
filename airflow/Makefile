@@ -8,8 +8,10 @@ start:
 
 stop:
 	echo "Stopping airflow"
+	docker network rm cluster-network || true
 	docker-compose down
 
 destroy:
 	echo "Stopping airflow and removing volumes"
+	docker network rm cluster-network || true
 	docker-compose down -v

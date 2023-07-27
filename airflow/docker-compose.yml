@@ -102,4 +102,4 @@ services:
 networks:
   default:
     name: cluster-network
-    external: true
+    external: false
