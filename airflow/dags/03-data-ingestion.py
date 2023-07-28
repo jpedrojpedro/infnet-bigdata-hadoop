@@ -35,7 +35,7 @@ with DAG(
     schedule_interval=None,
     start_date=dt.datetime(2021, 1, 1),
     catchup=False,
-    tags=['example'],
+    tags=['example', 'pg-data'],
 ) as dag:
     sequence = []
     for tbl in ["circuits", "constructors", "drivers", "qualifying", "races", "results", "seasons", "status"]:
