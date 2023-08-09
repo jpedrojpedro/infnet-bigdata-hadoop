@@ -16,13 +16,13 @@ start-m1:
 
 stop:
 	echo "Stopping micro-cluster"
-	docker network rm cluster-network || true
 	docker-compose down
+	docker network rm cluster-network || true
 
 destroy:
 	echo "Stopping micro-cluster and removing volumes"
-	docker network rm cluster-network || true
 	docker-compose down -v
+	docker network rm cluster-network || true
 
 pg-data:
 	echo "Starting pg-data only"

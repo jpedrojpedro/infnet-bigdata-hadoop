@@ -169,6 +169,8 @@ datasets/*
 
 # notebooks folder
 notebooks/Nubank-Challenge.ipynb
+notebooks/.Trash-*/
+notebooks/*.jar
 
 # MacOS
 .DS_Store
