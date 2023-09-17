@@ -24,7 +24,7 @@ RUN apt update && apt install -y python3 python3-pip python3-dev build-essential
 COPY /confs/requirements.req /
 RUN pip3 install --upgrade pip
 RUN python3 -m pip install cython
-RUN python3 -m pip install --no-binary :all: --no-use-pep517 numpy
+RUN python3 -m pip install numpy
 RUN python3 -m pip install matplotlib
 RUN pip3 install -r requirements.req
 RUN pip3 install dask[bag] --upgrade
