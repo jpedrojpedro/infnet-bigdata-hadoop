@@ -42,17 +42,18 @@ with DAG(
             log.info("opening postgres connection")
             postgres_hook = PostgresHook(postgres_conn_id="pg-data")
             log.info(f"reading dataframe {str(filename)}")
-            for df_chunk in pd.read_json(filename, lines=True, chunksize=10_000):
-                log.info(f"loading data into postgres table bus.report")
+            for df_chunk in pd.read_json(filename, lines=True, chunksize=50_000):
+                log.info(f"loading data into postgres table bus.report_full")
                 df = df_chunk[
-                    ["ordem", "latitude", "longitude", "datahora"]
-                ].rename(columns={"latitude": "lat", "longitude": "long", "datahora": "dt"})
+                    ["ordem", "latitude", "longitude", "velocidade", "linha", "datahoraservidor"]
+                ].rename(columns={"latitude": "lat", "longitude": "long", "datahoraservidor": "dt"})
                 df["lat"] = df["lat"].str.replace(",", ".").astype(float)
                 df["long"] = df["long"].str.replace(",", ".").astype(float)
+                df["velocidade"] = df["velocidade"].astype("int32")
                 df["dt"] = pd.to_datetime(df["dt"], unit="ms")
                 df.to_sql(
                     schema="bus",
-                    name="report",
+                    name="report_full",
                     con=postgres_hook.get_sqlalchemy_engine(),
                     index=False,
                     if_exists="append"
