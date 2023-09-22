@@ -1,4 +1,4 @@
-FROM ubuntu:kinetic
+FROM ubuntu:jammy
 
 ARG AIRFLOW_HOME=/home/airflow
 
