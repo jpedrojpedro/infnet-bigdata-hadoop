@@ -1,10 +1,11 @@
 # Apple M1 arch dependencies
 # numpy and matplotlib now installed in Dockerfile
+grpcio>=1.49.0
 scikit-learn
 jupyter
-pyspark
-dask
+pyspark==2.4.8
+dask==2021.10.0
 pandas
 findspark
-dask-yarn
+dask-yarn==0.9
 bash_kernel

@@ -73,6 +73,7 @@
 
 ```bash
 docker build . -t cluster-base
+docker build --build-arg ARCH=arm64 . -t cluster-base
 ```
 
 ### Comando para execução do cluster
