@@ -1,39 +1,33 @@
-FROM ubuntu:jammy
+FROM apache/airflow:2.5.1-python3.10
 
-ARG AIRFLOW_HOME=/home/airflow
+USER root
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y netcat-openbsd curl unzip gcc g++ python3-dev libpq-dev procps sudo htop nano libsasl2-dev && \
+    apt-get clean
 
-ENV AIRFLOW_HOME=${AIRFLOW_HOME}
+RUN echo "airflow ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN apt-get update
-RUN apt-get install -y python3 pip
+USER airflow
 
-# Installing the other dependencies
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y netcat-openbsd curl unzip awscli gcc python3-dev libpq-dev procps sudo htop nano libsasl2-dev
-
-RUN useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
- && usermod -aG sudo airflow \
- && echo  "airflow     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
- && pip install apache-airflow[celery,redis,postgres,crypto]==2.5.1 \
+RUN pip install --no-cache-dir \
         apache-airflow-providers-amazon==6.1.0 \
         apache-airflow-providers-slack==5.1.0 \
         apache-airflow-providers-ssh==3.2.0 \
         apache-airflow-providers-apache-hive==4.0.0 \
         apache-airflow-providers-presto==4.0.1
 
-WORKDIR ${AIRFLOW_HOME}
+WORKDIR /home/airflow
 
-COPY entrypoint.sh entrypoint.sh
-COPY config/variables.json variables.json
-COPY config/setup_connections.py setup_connections.py
-COPY config/requirements.txt requirements.txt
-COPY config/webserver_config.py webserver_config.py
-COPY plugins/ plugins
-COPY dags/ dags
+COPY --chown=airflow:airflow entrypoint.sh entrypoint.sh
+COPY --chown=airflow:airflow config/variables.json variables.json
+COPY --chown=airflow:airflow config/setup_connections.py setup_connections.py
+COPY --chown=airflow:airflow config/requirements.txt requirements.txt
+COPY --chown=airflow:airflow config/webserver_config.py webserver_config.py
+COPY --chown=airflow:airflow plugins/ plugins
+COPY --chown=airflow:airflow dags/ dags
 
-RUN echo "alias python=/usr/bin/python3\n" >> .bash_aliases
-RUN chmod +x entrypoint.sh && chown -R airflow:airflow ${AIRFLOW_HOME}
+RUN chmod +x entrypoint.sh
 
-USER airflow
 EXPOSE 8080 5555
 ENTRYPOINT ["./entrypoint.sh"]
 

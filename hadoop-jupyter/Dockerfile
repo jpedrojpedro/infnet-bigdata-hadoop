@@ -40,6 +40,9 @@ RUN wget -P /tmp/ https://archive.apache.org/dist/spark/spark-2.4.8/spark-2.4.8-
     tar xvf /tmp/spark-2.4.8-bin-hadoop2.7.tgz -C /tmp && \
     mv /tmp/spark-2.4.8-bin-hadoop2.7 ${SPARK_HOME}
 
+COPY patch_cloudpickle.py /tmp/patch_cloudpickle.py
+RUN python3 /tmp/patch_cloudpickle.py
+
 RUN wget -P /tmp/ https://archive.apache.org/dist/hive/hive-2.3.9/apache-hive-2.3.9-bin.tar.gz && \
     tar xvf /tmp/apache-hive-2.3.9-bin.tar.gz -C /tmp && \
     mv /tmp/apache-hive-2.3.9-bin ${HIVE_HOME}

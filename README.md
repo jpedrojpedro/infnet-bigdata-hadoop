@@ -108,6 +108,13 @@ Acesse o Jupyter Notebook através do link: [http://localhost:8888/](http://loca
 docker-compose down
 ```
 
+### Gerenciando YARN applications manualmente
+
+```
+docker exec -it node-master bash
+root@node-master:/# yarn application -kill {application_id}
+```
+
 Caso queira apagar todos os volumes associados ao projeto, basta inserir o parâmetro `-v` no comando acima <br/>
 Cuidado que isso faz com que todo o projeto seja baixado e configurado do ZERO!
 
