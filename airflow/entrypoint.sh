@@ -53,11 +53,13 @@ install_python_packages() {
 wait_for_port "Postgres" "$POSTGRES_HOST" "$POSTGRES_PORT"
 wait_for_port "Redis" "$REDIS_HOST" "$REDIS_PORT"
 
+export AIRFLOW_HOME=/home/airflow
 export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
 export AIRFLOW__CELERY__RESULT_BACKEND="db+postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
 export AIRFLOW__CORE__LOAD_EXAMPLES=False
 export AIRFLOW__CORE__EXECUTOR=CeleryExecutor
 export AIRFLOW__CORE__FERNET_KEY="jhs9Hz7VfxWwxZfsq7CqWyh2ZGVl_xx2dxROFK2NY9o="
+export AIRFLOW__CORE__DAGS_FOLDER=/home/airflow/dags
 
 case "$1" in
     webserver)

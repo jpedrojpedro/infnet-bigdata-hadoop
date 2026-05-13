@@ -39,11 +39,11 @@ with DAG(
     tags=['example'],
 ) as dag:
 
-    # extract_artists = SqliteOperator(
-    #     task_id='extract_artists',
-    #     sql='select * from artist',  # can refer to a file
-    #     sqlite_conn_id='chinook_db',
-    # )
+    extract_artists = SqliteOperator(
+        task_id='extract_artists',
+        sql='select * from artist',  # can refer to a file
+        sqlite_conn_id='chinook_db',
+    )
 
     @task
     def extract_artist():

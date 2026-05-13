@@ -4,7 +4,8 @@ import datetime as dt
 from airflow.models import DAG
 from airflow.decorators import task
 from airflow.utils.helpers import chain
-from airflow.providers.postgres.hooks.postgres import PostgresHook
+# from airflow.providers.postgres.hooks.postgres import PostgresHook
+from airflow.providers.sqlite.hooks.sqlite import SqliteHook
 
 
 log = logging.getLogger(__name__)
@@ -41,14 +42,14 @@ with DAG(
     for tbl in ["circuits", "constructors", "drivers", "qualifying", "races", "results", "seasons", "status"]:
         @task(task_id=f"extract_{tbl}")
         def extract(table_name):
-            log.info("opening postgres connection")
-            postgres_hook = PostgresHook(postgres_conn_id="pg-data")
+            log.info("opening SQLite connection")
+            sqlite_hook = SqliteHook(sqlite_conn_id='f1_drivers_db')
             log.info(f"reading dataframe {table_name}")
             df = pd.read_csv(f"dags/input/f1/{table_name}.csv", encoding="iso-8859-1")
-            log.info(f"loading data into postgres table {table_name}")
+            log.info(f"loading data into SQLite table {table_name}")
             df.to_sql(
                 table_name,
-                postgres_hook.get_sqlalchemy_engine(),
+                sqlite_hook.get_sqlalchemy_engine(),
                 if_exists="replace",
                 chunksize=1000
             )
