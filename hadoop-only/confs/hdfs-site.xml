@@ -36,4 +36,14 @@
         <name>hadoop.security.group.mapping.ldap.posix.attr.uid.name</name>
         <value>uid</value>
     </property>
+
+    <property>
+        <name>dfs.web.hdfs.enabled</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
 </configuration>

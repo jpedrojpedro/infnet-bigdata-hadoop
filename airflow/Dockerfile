@@ -9,14 +9,12 @@ RUN echo "airflow ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER airflow
 
-RUN pip install --no-cache-dir \
-        apache-airflow-providers-amazon==6.1.0 \
-        apache-airflow-providers-slack==5.1.0 \
-        apache-airflow-providers-ssh==3.2.0 \
-        apache-airflow-providers-apache-hive==4.0.0 \
-        apache-airflow-providers-presto==4.0.1
-
 WORKDIR /home/airflow
+
+COPY requirements.txt ./requirements.txt
+
+RUN pip install --no-cache-dir -r ./requirements.txt \
+    --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.5.1/constraints-3.10.txt"
 
 COPY --chown=airflow:airflow entrypoint.sh entrypoint.sh
 COPY --chown=airflow:airflow config/variables.json variables.json
@@ -30,4 +28,3 @@ RUN chmod +x entrypoint.sh
 
 EXPOSE 8080 5555
 ENTRYPOINT ["./entrypoint.sh"]
-

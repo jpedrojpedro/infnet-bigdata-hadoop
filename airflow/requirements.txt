@@ -1,0 +1,6 @@
+apache-airflow-providers-amazon
+apache-airflow-providers-slack
+apache-airflow-providers-ssh
+apache-airflow-providers-apache-hive
+apache-airflow-providers-presto
+apache-airflow-providers-apache-spark
